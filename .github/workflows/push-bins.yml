@@ -1,4 +1,4 @@
-name: Release Go Binaries
+name: Push Go Binaries
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   releases-matrix:
-    name: Release Go Binary
+    name: Push Go Binary
     runs-on: ubuntu-latest
     strategy:
       matrix:
