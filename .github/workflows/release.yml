@@ -9,6 +9,15 @@ jobs:
   tagged-release:
     name: "Create Release"
     runs-on: "ubuntu-latest"
+    steps:
+      - name: "Create release from tag"
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+  push-to-release:
+    name: "Compile and Push Binaries"
+    runs-on: "ubuntu-latest"
     strategy:
       matrix:
         # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
@@ -19,18 +28,11 @@ jobs:
             goos: darwin
           - goarch: arm64
             goos: windows
-
     steps:
-      - name: "Create release from tag..."
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-      - name: Push bins
-        uses: actions/checkout@v3
-        uses: wangyoucao577/go-release-action@v1.33
-        with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            goos: ${{ matrix.goos }}
-            goarch: ${{ matrix.goarch }}
-            goversion: "https://dl.google.com/go/go1.19.3.linux-amd64.tar.gz"
+    - uses: actions/checkout@v3
+    - uses: wangyoucao577/go-release-action@v1.33
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: ${{ matrix.goos }}
+        goarch: ${{ matrix.goarch }}
+        goversion: "https://dl.google.com/go/go1.19.3.linux-amd64.tar.gz"
