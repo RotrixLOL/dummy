@@ -7,17 +7,17 @@ on:
 
 jobs:
   tagged-release:
-    name: "Create Release"
-    runs-on: "ubuntu-latest"
+    name: Create Release
+    runs-on: ubuntu-latest
     steps:
-      - name: "Create release from tag"
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Create release from tag
+      - uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
   push-to-release:
-    name: "Compile and Push Binaries"
-    runs-on: "ubuntu-latest"
+    name: Compile and Push Binaries
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
